@@ -1,0 +1,62 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.exerciseTile {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.exerciseTile:hover {
+    text-decoration-line: underline;
+}
+
+.buttonsSidebar {
+    display: flex;
+    width: 25%;
+    float: right;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.addExerciseInput {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 50%;
+}
+
+.rawLink {
+    text-decoration: none;
+    color:black;
+}
+
+.rawLink:hover {
+    text-decoration: underline;
+}
+
+.smallNumInput {
+    width: 30px;
+}
+
+.largeNumInput {
+    width: 40px;
+}
+
+.logBody {
+    width: 90%;
+    margin: auto;
+}
+
+.logBody > div > p {
+    margin: 0;
+}
+
+table {
+    width: 70%;
+}
+
+table, th, td {
+    border:1px solid black;
+}
