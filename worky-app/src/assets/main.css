@@ -14,7 +14,7 @@ html {
 
 .buttonsSidebar {
     display: flex;
-    width: 25%;
+    width: 20%;
     float: right;
     justify-content: center;
     flex-direction: column;
@@ -63,4 +63,8 @@ table, th, td {
 
 .removeButton {
     color: red
+}
+
+.splitExerciseText:hover {
+    text-decoration: underline;
 }

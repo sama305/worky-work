@@ -4,6 +4,7 @@ export class Exercise {
     id: number
     sets: number
     reps: number
+    readonly created: string
 
     constructor(name: string, muscleGroup: MuscleGroup, sets: number, reps: number) {
         this.name = name;
@@ -11,6 +12,7 @@ export class Exercise {
         this.id = 0
         this.sets = sets
         this.reps = reps
+        this.created = new Date().toLocaleDateString().split('/').join('-')
     }
 }
 
@@ -38,3 +40,27 @@ export class LoggedWorkout {
 }
 
 export type SetData = { reps: number, weight: number }
+
+export class Split {
+    name: string
+    days: Array<Day>
+    constructor(name: string, days: Array<Day>) {
+        this.name = name
+        this.days = days
+    }
+}
+
+export class Day {
+    name: string
+    exercises: Array<Exercise>
+    constructor(name: string, exercises: Array<Exercise>) {
+        this.name = name
+        this.exercises = exercises
+    }
+}
+
+export class RestDay extends Day {
+    constructor() {
+        super('rest', [])
+    }
+}

@@ -6,6 +6,8 @@ import ExerciseInfoView from '@/views/ExerciseInfoView.vue'
 import AddLogView from '@/views/AddLogView.vue'
 import LogsView from '@/views/LogsView.vue'
 import EditExerciseView from '@/views/EditExerciseView.vue'
+import SplitsView from '@/views/SplitsView.vue'
+import AddSplitView from '@/views/AddSplitView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +46,16 @@ const router = createRouter({
       path: '/exercises/edit/:id',
       name: 'editExerciseInfo',
       component: EditExerciseView
+    },
+    {
+      path: '/splits',
+      name: 'splits',
+      component: SplitsView
+    },
+    {
+      path: '/splits/add',
+      name: 'addSplit',
+      component: AddSplitView
     }
   ]
 })

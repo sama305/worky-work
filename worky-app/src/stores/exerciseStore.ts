@@ -1,14 +1,16 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { Exercise, LoggedWorkout, type MuscleGroup } from '@/exercise'
+import { Exercise, LoggedWorkout, type MuscleGroup, Split } from '@/exercise'
 
 type DateWithLogs = { date: string, logs: Array<LoggedWorkout> }
 
 export const useExercisesStore = defineStore('exercises', {
   state: () => ({
     exercises: Array<Exercise>(),
+    logs: Array<LoggedWorkout>(),
+    splits: Array<Split>(),
+    activeSplit: null as Split | null,
     curId: 0,
-    logs: Array<LoggedWorkout>()
   }),
   getters: {
     getExercises: (state) => { return state.exercises; },
@@ -61,6 +63,12 @@ export const useExercisesStore = defineStore('exercises', {
       })
 
       return max
+    },
+    getSplits: (state) => {
+      return state.splits
+    },
+    getActiveSplit: (state) => {
+      return state.activeSplit
     }
   },
   actions: {
@@ -83,16 +91,15 @@ export const useExercisesStore = defineStore('exercises', {
       exercise.muscleGroup = newMuscleGroup
       exercise.sets = newSets
       exercise.reps = newReps
-
-      // exercise = {
-      //   name: newName,
-      //   muscleGroup: newMuscleGroup,
-      //   sets: newSets,
-      //   reps: newReps
-      // } as Exercise
     },
     addLog(log: LoggedWorkout) {
       this.logs.push(log)
+    },
+    addSplit(split: Split) {
+      this.splits.push(split)
+    },
+    setActiveSplit(split: Split) {
+      this.activeSplit = split
     }
   }
 })
