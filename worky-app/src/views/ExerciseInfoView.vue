@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td>latest weight</td>
-                <td><i>{{ 185 }}lbs</i></td>
+                <td><i>{{ latestMaxWeight }}lbs</i></td>
             </tr>
             <tr>
                 <td>first logged</td>
@@ -65,8 +65,11 @@ export default {
         },
         maxWeight() {
             const maxWeight = this.store.getMaxWeightForExercise(this.exercise_ as Exercise)
-            console.log(maxWeight)
             return maxWeight
+        },
+        latestMaxWeight() {
+            const latestMax = this.store.getLatestMaxForExercise(this.exercise_ as Exercise)
+            return latestMax
         }
     }
 }

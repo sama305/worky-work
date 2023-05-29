@@ -22,7 +22,7 @@
                         </tr>
                         <tr>
                             <td>weight</td>
-                            <td v-for="rps in l.repsPerSet"><i>{{ rps.weight }}</i></td>
+                            <td v-for="rps in l.repsPerSet" :class="checkWorkoutMax(rps.weight, l.repsPerSet)"><i>{{ rps.weight }}</i></td>
                         </tr>
                     </table>
                 </div>
@@ -33,6 +33,7 @@
 
 
 <script lang="ts">
+import type { LoggedWorkout, SetData } from '@/exercise';
 import { useExercisesStore } from '@/stores/exerciseStore';
 
 export default {
@@ -41,6 +42,22 @@ export default {
         return {
             store
         }
+    },
+    methods: {
+        checkWorkoutMax(weight: number, log: Array<SetData>) {
+            const weights: number[] = log.map((l) => l.weight)
+            if (Math.max(...weights) == weight) {
+                return "boldWeight"
+            }
+            return ""
+        }
     }
 }
 </script>
+
+<style scoped>
+
+.boldWeight {
+    font-weight: bold;
+}
+</style>

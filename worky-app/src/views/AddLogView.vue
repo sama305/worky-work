@@ -64,7 +64,13 @@ export default {
     methods: {
         resetSetsReps() {
             this.setsreps_ = new Array<SetData>(this.exercise_?.sets as number)
-            this.setsreps_.fill({ reps: this.exercise_?.reps as number, weight: 123 })
+            for (let i = 0; i < (this.exercise_?.sets as number); i++) {
+                let sr = {
+                    reps: this.exercise_?.reps as number,
+                    weight: this.store.getLatestMaxForExercise(this.exercise_ as Exercise)
+                } 
+                this.setsreps_[i] = sr
+            }
         },
         addLog(callback: Function) {
             let l = new LoggedWorkout(this.exercise_ as Exercise, this.setsreps_)

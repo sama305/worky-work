@@ -46,6 +46,20 @@ export const useExercisesStore = defineStore('exercises', {
           }
         })
       })
+      
+      return max
+    },
+    getLatestMaxForExercise: (state) => (exercise: Exercise) => {
+      const mostRecentLog = state.logs.reverse().find((l) => l.exercise === exercise)
+      if (!mostRecentLog) return 0;
+    
+      let max = mostRecentLog.repsPerSet[0].weight
+
+      mostRecentLog.repsPerSet.forEach((rps) => {
+        if (rps.weight > max)
+          max = rps.weight
+      })
+
       return max
     }
   },
