@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { Exercise, LoggedWorkout } from '@/exercise'
+import { Exercise, LoggedWorkout, type MuscleGroup } from '@/exercise'
 
 type DateWithLogs = { date: string, logs: Array<LoggedWorkout> }
 
@@ -46,7 +46,7 @@ export const useExercisesStore = defineStore('exercises', {
           }
         })
       })
-      
+
       return max
     },
     getLatestMaxForExercise: (state) => (exercise: Exercise) => {
@@ -72,6 +72,24 @@ export const useExercisesStore = defineStore('exercises', {
     removeExercise(exercise: Exercise) {
       const i = this.exercises.indexOf(exercise)
       this.exercises.splice(i, 1)
+    },
+    editExercise(exercise: Exercise, 
+                 newName: string, 
+                 newMuscleGroup: MuscleGroup,
+                 newSets: number,
+                 newReps: number)
+    {
+      exercise.name = newName
+      exercise.muscleGroup = newMuscleGroup
+      exercise.sets = newSets
+      exercise.reps = newReps
+
+      // exercise = {
+      //   name: newName,
+      //   muscleGroup: newMuscleGroup,
+      //   sets: newSets,
+      //   reps: newReps
+      // } as Exercise
     },
     addLog(log: LoggedWorkout) {
       this.logs.push(log)

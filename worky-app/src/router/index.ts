@@ -5,6 +5,7 @@ import AddExercise from '../views/AddExerciseView.vue'
 import ExerciseInfoView from '@/views/ExerciseInfoView.vue'
 import AddLogView from '@/views/AddLogView.vue'
 import LogsView from '@/views/LogsView.vue'
+import EditExerciseView from '@/views/EditExerciseView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +23,7 @@ const router = createRouter({
     {
       path: '/exercises/add',
       name: 'addExercise',
-      component: AddExercise
+      component: AddExercise,
     },
     {
       path: '/exercises/:id',
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/logs',
       name: 'logs',
       component: LogsView
+    },
+    {
+      path: '/exercises/edit/:id',
+      name: 'editExerciseInfo',
+      component: EditExerciseView
     }
   ]
 })

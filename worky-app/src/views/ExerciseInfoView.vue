@@ -1,9 +1,3 @@
-<!--
-TODO:
-- add ability to remove exercise
-- add ability to edit exercise info
--->
-
 <template>
     <div class="header">
         <div style="font-size: 30px;">
@@ -13,6 +7,9 @@ TODO:
             <tt>[id:{{ exercise_?.id }}]</tt>
         </div>
     </div>
+    <RouterLink :to="`/exercises/edit/${exercise_?.id}`" custom v-slot="{ navigate }">
+        <button  style="float: right" @click="editExercise(navigate)">edit data</button>
+    </RouterLink>
     <br>
     <div class="info">
         <p><b>general</b></p>
@@ -85,6 +82,9 @@ export default {
     methods: {
         removeExercise(navCallback: Function) {
             this.store.removeExercise(this.exercise_ as Exercise)
+            navCallback()
+        },
+        editExercise(navCallback: Function) {
             navCallback()
         }
     }

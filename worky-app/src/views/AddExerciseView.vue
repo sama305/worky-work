@@ -30,8 +30,9 @@
             </select>
         </div>
         <RouterLink to="/exercises" custom v-slot="{ navigate }">
+            <!-- new exercise -->
             <button @click="addExercise(navigate)" :disabled="cannotAdd">
-                Add New Exercise
+                add new exercise
             </button>
         </RouterLink>
     </div>
