@@ -1,3 +1,9 @@
+<!--
+TODO:
+- add ability to remove exercise
+- add ability to edit exercise info
+-->
+
 <template>
     <div class="header">
         <div style="font-size: 30px;">
@@ -46,6 +52,10 @@
             </tr>
         </table>
     </div>
+    <br>
+    <RouterLink to="/exercises" custom v-slot="{ navigate }">
+        <button class="removeButton" @click="removeExercise(navigate)">remove exercise</button>
+    </RouterLink>
 </template>
 
 <script lang="ts">
@@ -70,6 +80,12 @@ export default {
         latestMaxWeight() {
             const latestMax = this.store.getLatestMaxForExercise(this.exercise_ as Exercise)
             return latestMax
+        }
+    },
+    methods: {
+        removeExercise(navCallback: Function) {
+            this.store.removeExercise(this.exercise_ as Exercise)
+            navCallback()
         }
     }
 }

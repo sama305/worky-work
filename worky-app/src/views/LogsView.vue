@@ -1,3 +1,9 @@
+<!-- 
+TODO:
+- add id to the right side of each title (for removed exercises)
+
+-->
+
 <template>
     <div>
         <div class="logWrapper" v-for="ld in store.getLogsSortedByDay">
