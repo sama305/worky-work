@@ -20,40 +20,22 @@ split ideas:
             </RouterLink>
         </div>
         <div class="splitsWrapper" v-for="split in store.getSplits">
-            <div>
-                <span>
-                    <p style="font-size: 20px; margin: 0; margin-bottom: 10px">
-                        <i>{{ split.name }}</i> split ({{ split.days.length }} days)
-                    </p>
-                </span>
-            </div>
-            <div class="splitsBody">
-                <p style="margin: 0; margin-bottom: 0"><b>schedule</b></p>
-                <table style="margin-bottom: 5px; width: 100%">
-                    <tr v-for="day in split.days">
-                        <td>{{ day.name }}</td>
-                        <td v-for="e in day.exercises">
-                            <RouterLink :to="`/exercises/${e.id}`" class="rawLink">
-                                {{ e.name }}
-                            </RouterLink>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <br>
+            <SplitTileVue :split="split"/>
         </div>
     </div>
 </template>
 
 <script lang="ts">
+import SplitTileVue from '@/components/SplitTile.vue';
 import { useExercisesStore } from '@/stores/exerciseStore';
 
 export default {
     setup() {
-        const store = useExercisesStore()
+        const store = useExercisesStore();
         return {
             store
-        }
-    }
+        };
+    },
+    components: { SplitTileVue }
 }
 </script>

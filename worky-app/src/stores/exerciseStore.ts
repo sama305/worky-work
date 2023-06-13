@@ -1,6 +1,6 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { Exercise, LoggedWorkout, type MuscleGroup, Split } from '@/exercise'
+import { Exercise, LoggedWorkout, type MuscleGroup, Split, Day } from '@/exercise'
+import { daysIntoYear } from '@/util'
 
 type DateWithLogs = { date: string, logs: Array<LoggedWorkout> }
 
@@ -9,8 +9,9 @@ export const useExercisesStore = defineStore('exercises', {
     exercises: Array<Exercise>(),
     logs: Array<LoggedWorkout>(),
     splits: Array<Split>(),
-    activeSplit: null as Split | null,
+    activeSplit: {} as Split,
     curId: 0,
+    userOffset: 0
   }),
   getters: {
     getExercises: (state) => { return state.exercises; },
@@ -69,6 +70,18 @@ export const useExercisesStore = defineStore('exercises', {
     },
     getActiveSplit: (state) => {
       return state.activeSplit
+    },
+    getCurrentDayOfActiveSplit(): Day | null {
+      if (this.activeSplit.days) {
+        return this.activeSplit.days[this.offsetDay] as Day
+      }
+      return null
+    },
+    globalDay: (state) => {
+      return daysIntoYear(new Date()) % state.activeSplit.days.length
+    },
+    offsetDay(): number {
+      return (daysIntoYear(new Date())+ this.userOffset) % this.activeSplit.days.length
     }
   },
   actions: {
@@ -100,6 +113,9 @@ export const useExercisesStore = defineStore('exercises', {
     },
     setActiveSplit(split: Split) {
       this.activeSplit = split
+    },
+    setOffset(desiredDay: number) {
+      this.userOffset = desiredDay - this.globalDay
     }
   }
 })

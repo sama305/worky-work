@@ -43,12 +43,14 @@
                                type="number"
                                class="smallNumInput"
                                min="1"/><br>
-                        <select v-if="store.getExercises.length > 0"  v-for="j in days[i-1].exercises.length" v-model="days[i-1].exercises[j-1]">
-                            <option :value="undefined" disabled>select an exercise</option>
-                            <option v-for="e in store.getExercises" :value="e">
-                            {{ e.name }}
-                            </option>
-                        </select>
+                        <div v-if="store.getExercises.length > 0"  v-for="j in days[i-1].exercises.length">
+                            <select v-model="days[i-1].exercises[j-1]">
+                                <option :value="undefined" disabled>select an exercise</option>
+                                <option v-for="e in store.getExercises" :value="e">
+                                {{ e.name }}
+                                </option>
+                            </select>
+                        </div>
                         <tt v-else>sorry, no exercises exist yet</tt>
                     </div>
                 </div>

@@ -54,11 +54,13 @@ html {
 }
 
 table {
-    width: 70%;
+    width: auto;
 }
 
 table, th, td {
     border:1px solid black;
+    border-collapse: collapse;
+    padding: 2px;
 }
 
 .removeButton {
