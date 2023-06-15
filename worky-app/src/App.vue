@@ -18,6 +18,8 @@
 
   <hr>
 
+  <p>{{  }}</p>
+
   <RouterView />
 </template>
 
@@ -31,6 +33,11 @@ export default {
     return {
       store
     }
+  },
+  created() {
+    this.store.fetchExercises()
+    this.store.fetchSplits()
+    this.store.fetchUser()
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div style="float: right">
     <tt>active split: </tt>
-    <select v-model="store.activeSplit">
+    <select v-model="store.activeSplit" @change="store.updateUser()">
       <option :value="{}">none</option>
       <option v-for="s in store.getSplits" :value="s">{{ s.name }}</option>
     </select>
@@ -44,9 +44,6 @@ export default {
         console.log(this.store.userOffset);
       }
     },
-    components: { SplitTile, SplitDayTile },
-    watch: {
-      
-    }
+    components: { SplitTile, SplitDayTile }
 }
 </script>

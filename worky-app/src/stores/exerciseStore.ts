@@ -10,8 +10,9 @@ export const useExercisesStore = defineStore('exercises', {
     logs: Array<LoggedWorkout>(),
     splits: Array<Split>(),
     activeSplit: {} as Split,
-    curId: 0,
-    userOffset: 0
+    curId: 0, // TODO: replace
+    userOffset: 0,
+    currentUser: 'sam'
   }),
   getters: {
     getExercises: (state) => { return state.exercises; },
@@ -85,16 +86,18 @@ export const useExercisesStore = defineStore('exercises', {
     }
   },
   actions: {
-    addExercise(exercise: Exercise) {
+    async addExercise(exercise: Exercise) {
       this.exercises.push(exercise)
       exercise.id = this.curId
       this.curId++;
+      await this.updateExercises()
     },
-    removeExercise(exercise: Exercise) {
+    async removeExercise(exercise: Exercise) {
       const i = this.exercises.indexOf(exercise)
       this.exercises.splice(i, 1)
+      await this.updateExercises()
     },
-    editExercise(exercise: Exercise, 
+    async editExercise(exercise: Exercise, 
                  newName: string, 
                  newMuscleGroup: MuscleGroup,
                  newSets: number,
@@ -104,18 +107,101 @@ export const useExercisesStore = defineStore('exercises', {
       exercise.muscleGroup = newMuscleGroup
       exercise.sets = newSets
       exercise.reps = newReps
+      await this.updateExercises()
     },
     addLog(log: LoggedWorkout) {
       this.logs.push(log)
     },
-    addSplit(split: Split) {
+    async addSplit(split: Split) {
       this.splits.push(split)
+      await this.updateSplits()
     },
-    setActiveSplit(split: Split) {
+    async setActiveSplit(split: Split) {
       this.activeSplit = split
+      await this.updateUser()
     },
-    setOffset(desiredDay: number) {
+    async setOffset(desiredDay: number) {
       this.userOffset = desiredDay - this.globalDay
+      await this.updateUser()
+    },
+    async updateExercises() {
+      await fetch(`http://localhost:8080/${this.currentUser}/exercises`, {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.exercises)
+      })
+      .then((res) => res.json())
+      .then((jsonData) => {
+          window.console.log(jsonData);
+      })
+      .catch(e => {
+        console.error(e)
+      });
+    },
+    async fetchExercises() {
+      await fetch(`http://localhost:8080/${this.currentUser}/exercises`)
+      .then((res) => {
+        return res.json()
+      })
+      .then((jsonData) => {
+        this.exercises = jsonData
+      });
+    },
+    async updateSplits() {
+      await fetch(`http://localhost:8080/${this.currentUser}/splits`, {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.splits)
+      })
+      .then((res) => res.json())
+      .then((jsonData) => {
+          window.console.log(jsonData);
+      })
+      .catch(e => {
+        console.error(e)
+      });
+    },
+    async fetchSplits() {
+      await fetch(`http://localhost:8080/${this.currentUser}/splits`)
+      .then((res) => {
+        return res.json()
+      })
+      .then((jsonData) => {
+        this.splits = jsonData
+      });
+    },
+    async updateUser() {
+      await fetch(`http://localhost:8080/${this.currentUser}`, {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            activeSplit: this.activeSplit,
+            userOffset: this.userOffset,
+          })
+      })
+      .then((res) => res.json())
+      .then((jsonData) => {
+          window.console.log(jsonData);
+      })
+      .catch(e => {
+        console.error(e)
+      });
+    },
+    async fetchUser() {
+      await fetch(`http://localhost:8080/${this.currentUser}`)
+      .then((res) => {
+        return res.json()
+      })
+      .then((jsonData) => {
+        this.activeSplit = jsonData.activeSplit
+        this.userOffset  = jsonData.userOffset
+      })
     }
   }
 })
