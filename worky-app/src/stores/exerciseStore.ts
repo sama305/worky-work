@@ -10,7 +10,6 @@ export const useExercisesStore = defineStore('exercises', {
     logs: Array<LoggedWorkout>(),
     splits: Array<Split>(),
     activeSplit: {} as Split,
-    curId: 0, // TODO: replace
     userOffset: 0,
     currentUser: 'sam'
   }),
@@ -88,14 +87,22 @@ export const useExercisesStore = defineStore('exercises', {
   actions: {
     async addExercise(exercise: Exercise) {
       this.exercises.push(exercise)
-      exercise.id = this.curId
-      this.curId++;
+      exercise.id = this.getMaxExerciseId() + 1;
       await this.updateExercises()
     },
     async removeExercise(exercise: Exercise) {
       const i = this.exercises.indexOf(exercise)
       this.exercises.splice(i, 1)
       await this.updateExercises()
+    },
+    getMaxExerciseId() {
+      let max = 0
+      this.exercises.forEach((e) => {
+        if (e.id > max) {
+          max = e.id
+        }
+      })
+      return max
     },
     async editExercise(exercise: Exercise, 
                  newName: string, 
