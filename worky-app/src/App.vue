@@ -38,6 +38,7 @@ export default {
     this.store.fetchExercises()
     this.store.fetchSplits()
     this.store.fetchUser()
+    this.store.fetchLogs()
   }
 }
 

@@ -14,6 +14,8 @@ export const useExercisesStore = defineStore('exercises', {
     currentUser: 'sam'
   }),
   getters: {
+    // TODO: change all getters so that they get updated versions of what they
+    //       are retrieving
     getExercises: (state) => { return state.exercises; },
     getExerciseById: (state) => (id: number) => {
       return state.exercises.find((e) => e.id == id)
@@ -37,7 +39,7 @@ export const useExercisesStore = defineStore('exercises', {
       return logWithDates
     },
     getMaxWeightForExercise: (state) => (exercise: Exercise) => {
-      const validLogs = state.logs.filter((l) => l.exercise === exercise)
+      const validLogs = state.logs.filter((l) => l.exercise.id=== exercise.id)
       if (validLogs.length == 0) return 0;
 
       let max = validLogs[0].repsPerSet[0].weight
@@ -53,7 +55,7 @@ export const useExercisesStore = defineStore('exercises', {
       return max
     },
     getLatestMaxForExercise: (state) => (exercise: Exercise) => {
-      const mostRecentLog = state.logs.reverse().find((l) => l.exercise === exercise)
+      const mostRecentLog = state.logs.reverse().find((l) => l.exercise.id === exercise.id)
       if (!mostRecentLog) return 0;
     
       let max = mostRecentLog.repsPerSet[0].weight
@@ -95,7 +97,7 @@ export const useExercisesStore = defineStore('exercises', {
       this.exercises.splice(i, 1)
       await this.updateExercises()
     },
-    getMaxExerciseId() {
+    getMaxExerciseId() {  // TODO: move this to getters?
       let max = 0
       this.exercises.forEach((e) => {
         if (e.id > max) {
@@ -116,8 +118,9 @@ export const useExercisesStore = defineStore('exercises', {
       exercise.reps = newReps
       await this.updateExercises()
     },
-    addLog(log: LoggedWorkout) {
+    async addLog(log: LoggedWorkout) {
       this.logs.push(log)
+      await this.updateLogs()
     },
     async addSplit(split: Split) {
       this.splits.push(split)
@@ -131,13 +134,16 @@ export const useExercisesStore = defineStore('exercises', {
       this.userOffset = desiredDay - this.globalDay
       await this.updateUser()
     },
+
+
+    // updating/fetching items from server
     async updateExercises() {
       await fetch(`http://localhost:8080/${this.currentUser}/exercises`, {
-          method: 'POST',
-          headers: {
-          'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.exercises)
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.exercises)
       })
       .then((res) => res.json())
       .then((jsonData) => {
@@ -158,11 +164,11 @@ export const useExercisesStore = defineStore('exercises', {
     },
     async updateSplits() {
       await fetch(`http://localhost:8080/${this.currentUser}/splits`, {
-          method: 'POST',
-          headers: {
-          'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.splits)
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.splits)
       })
       .then((res) => res.json())
       .then((jsonData) => {
@@ -179,18 +185,21 @@ export const useExercisesStore = defineStore('exercises', {
       })
       .then((jsonData) => {
         this.splits = jsonData
-      });
+      })
+      .catch(e => {
+        console.error(e)
+      })
     },
     async updateUser() {
       await fetch(`http://localhost:8080/${this.currentUser}`, {
-          method: 'POST',
-          headers: {
-          'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            activeSplit: this.activeSplit,
-            userOffset: this.userOffset,
-          })
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          activeSplit: this.activeSplit,
+          userOffset: this.userOffset,
+        })
       })
       .then((res) => res.json())
       .then((jsonData) => {
@@ -208,6 +217,32 @@ export const useExercisesStore = defineStore('exercises', {
       .then((jsonData) => {
         this.activeSplit = jsonData.activeSplit
         this.userOffset  = jsonData.userOffset
+      })
+      .catch(e => {
+        console.error(e)
+      })
+    },
+    async updateLogs() {
+      await fetch(`http://localhost:8080/${this.currentUser}/logs`, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.logs)
+      })
+      .then(res => res.json())
+      .catch(e => {throw e})
+    },
+    async fetchLogs() {
+      await fetch(`http://localhost:8080/${this.currentUser}/logs`)
+      .then(res => {
+        return res.json()
+      })
+      .then(jsonData => {
+        this.logs = jsonData
+      })
+      .catch(e => {
+        console.error(e)
       })
     }
   }

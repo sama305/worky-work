@@ -91,6 +91,23 @@ app.post('/:user/splits', (req, res) => {
     res.status(200).send(req.body)
 })
 
+app.get('/:user/logs', (req, res) => {
+    let rawData = fs.readFileSync(`./data/users/${req.params.user}/logs.json`)
+    console.log(`GET request from ${req.params.user} for logs`)
+
+    res.status(200).send(rawData)
+})
+
+app.post('/:user/logs', (req, res) => {
+    let rawData = req.body
+    let data = JSON.stringify(rawData)
+
+    fs.writeFileSync(`./data/users/${req.params.user}/logs.json`, data, 'utf-8');
+    console.log(`POST request from ${req.params.user} for logs`);
+
+    res.status(200).send(req.body)
+})
+
 app.listen(port, () => {
     console.log(`[server]: Server running at http://localhost:${port}`)
 });
