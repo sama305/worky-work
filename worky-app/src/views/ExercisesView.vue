@@ -21,9 +21,9 @@
         </div>
     </div>
     <div style="width: 78%">
-        <RouterLink v-for="e in filteredExercises" :to="`/exercises/${e.id}`" custom v-slot="{ navigate }">
+        <RouterLink v-for="(e, i) in filteredExercises" :to="`/exercises/${e.id}`" custom v-slot="{ navigate }">
             <div class="exerciseTile" @click="navigate">
-                <div>{{ e.name }}</div>
+                <div>{{ (i+1) + ". " + e.name }}</div>
                 <div>
                     <tt>[{{e.muscleGroup.name}}]</tt>
                 </div>

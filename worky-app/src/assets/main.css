@@ -54,13 +54,9 @@ html {
 }
 
 table {
-    width: auto;
-}
-
-table, th, td {
-    border:1px solid black;
+    /* border:1px solid black; */
     border-collapse: collapse;
-    padding: 2px;
+    /* padding: 2px; */
 }
 
 .removeButton {
@@ -69,4 +65,10 @@ table, th, td {
 
 .splitExerciseText:hover {
     text-decoration: underline;
+}
+.boldWeight {
+    font-weight: bold;
+}
+tr:nth-child(even) {
+  background-color: #D6EEEE;
 }

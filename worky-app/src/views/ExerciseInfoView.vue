@@ -16,38 +16,35 @@
         </RouterLink>
         <br>
         <div class="info">
-            <p><b>general</b></p>
+            <!-- <p class="tableHeader"><b>general</b></p> -->
             <table>
                 <tr>
-                    <td>muscle group</td>
+                    <th>group</th>
+                    <th>sets</th>
+                    <th>reps</th>
+                </tr>
+                <tr>
                     <td><i>{{ exercise_?.muscleGroup.name }}</i></td>
-                </tr>
-                <tr>
-                    <td>sets</td>
                     <td><i>{{ exercise_?.sets}}</i></td>
-                </tr>
-                <tr>
-                    <td>reps per set</td>
                     <td><i>{{ exercise_?.reps }}</i></td>
                 </tr>
             </table>
             <br>
-
-            <p><b>stats</b></p>
+            <!-- <p class="tableHeader"><b>stats</b></p> -->
             <table>
                 <tr>
-                    <td>max weight</td>
+                    <th>max wgt</th>
+                    <th>latest</th>
+                    <th>created</th>
+                </tr>
+                <tr>
                     <td v-if="maxWeight != 0"><i>{{ maxWeight }}lbs</i></td>
                     <td v-else><i>no data</i></td>
-                </tr>
-                <tr>
-                    <td>latest weight</td>
                     <td v-if="latestMaxWeight != 0"><i>{{ latestMaxWeight }}lbs</i></td>
                     <td v-else><i>no data</i></td>
+                    <td><i>{{ exercise_?.created }}</i></td>
                 </tr>
                 <tr>
-                    <td>created</td>
-                    <td><i>{{ exercise_?.created }}</i></td>
                 </tr>
             </table>
         </div>
@@ -103,5 +100,14 @@ export default {
 
 .info > p {
     margin: 0;
+}
+
+td {
+    width: 100px;
+    text-align: end;
+}
+
+.tableHeader {
+    text-decoration: underline;
 }
 </style>
