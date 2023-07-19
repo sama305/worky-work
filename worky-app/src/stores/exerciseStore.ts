@@ -18,7 +18,7 @@ export const useExercisesStore = defineStore('exercises', {
     //       are retrieving
     getExercises: (state) => { return state.exercises; },
     getExerciseById: (state) => (id: number) => {
-      return state.exercises.find((e) => e.id == id)
+      return state.exercises.find((e) => e.id === id)
     },
     getLogs: (state) => { return state.logs },
     getLogsSortedByDay: (state) => {
@@ -36,7 +36,14 @@ export const useExercisesStore = defineStore('exercises', {
         }
       })
 
-      return logWithDates
+      return logWithDates.sort((a, b) => {
+        if (new Date(a.date) > new Date(b.date))
+          return -1
+        else if (new Date(a.date) < new Date(b.date))
+          return 1
+        else
+          return 0
+      })
     },
     getMaxWeightForExercise: (state) => (exercise: Exercise) => {
       const validLogs = state.logs.filter((l) => l.exercise.id=== exercise.id)
@@ -69,6 +76,9 @@ export const useExercisesStore = defineStore('exercises', {
     },
     getSplits: (state) => {
       return state.splits
+    },
+    getSplitById: (state) => (id: number) => {
+      return state.splits.find((s) => s.id === id)
     },
     getActiveSplit: (state) => {
       return state.activeSplit
@@ -106,6 +116,15 @@ export const useExercisesStore = defineStore('exercises', {
       })
       return max
     },
+    getMaxSplitId() {
+      let max = 0
+      this.splits.forEach((s) => {
+        if (s.id > max) {
+          max = s.id
+        }
+      })
+      return max
+    },
     async editExercise(exercise: Exercise, 
                  newName: string, 
                  newMuscleGroup: MuscleGroup,
@@ -124,6 +143,7 @@ export const useExercisesStore = defineStore('exercises', {
     },
     async addSplit(split: Split) {
       this.splits.push(split)
+      split.id = this.getMaxSplitId() + 1;
       await this.updateSplits()
     },
     async setActiveSplit(split: Split) {

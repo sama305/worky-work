@@ -91,6 +91,16 @@ app.post('/:user/splits', (req, res) => {
     res.status(200).send(req.body)
 })
 
+app.get('/:user/splits/:id', (req, res) => {
+    let rawData = fs.readFileSync(`./data/users/${req.params.user}/splits.json`, 'utf-8');
+    let split = JSON.parse(rawData).find(s => {
+        return s.id === req.params.id
+    })
+    console.log(`GET request from ${req.params.user} for splits`);
+
+    res.status(200).send(split)
+})
+
 app.get('/:user/logs', (req, res) => {
     let rawData = fs.readFileSync(`./data/users/${req.params.user}/logs.json`)
     console.log(`GET request from ${req.params.user} for logs`)
