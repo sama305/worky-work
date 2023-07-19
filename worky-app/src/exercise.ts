@@ -44,7 +44,9 @@ export type SetData = { reps: number, weight: number }
 export class Split {
     name: string
     days: Array<Day>
+    id: number
     constructor(name: string, days: Array<Day>) {
+        this.id = 0
         this.name = name
         this.days = days
     }
