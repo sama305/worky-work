@@ -102,11 +102,6 @@ export default {
     margin: 0;
 }
 
-td {
-    width: 100px;
-    text-align: end;
-}
-
 .tableHeader {
     text-decoration: underline;
 }

@@ -21,6 +21,7 @@ split ideas:
         </div>
         <div class="splitsWrapper" v-for="split in store.getSplits">
             <SplitTileVue :split="split"/>
+            <br>
         </div>
     </div>
 </template>

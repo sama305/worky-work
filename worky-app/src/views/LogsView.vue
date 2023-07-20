@@ -10,13 +10,12 @@ TODO:
             <div>
                 <span>
                     <p style="font-size: 20px; margin: 0; margin-bottom: 10px">
-                        {{ ld.date }}
+                        logs for {{ ld.date }}
                     </p>
                 </span>
             </div>
-            <div class="logBody">
-                <LogTile :log="l" v-for="l in ld.logs">
-                </LogTile>
+            <div class="logsBody">
+                <LogTile :log="l" v-for="l in ld.logs" style="padding: 10px;"></LogTile>
             </div>
         </div>
     </div>

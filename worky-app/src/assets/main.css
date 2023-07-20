@@ -44,12 +44,14 @@ html {
     width: 40px;
 }
 
-.logBody {
+.logsBody {
     width: 90%;
     margin: auto;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.logBody > div > p {
+.logsBody > div > p {
     margin: 0;
 }
 
@@ -69,6 +71,20 @@ table {
 .boldWeight {
     font-weight: bold;
 }
+
 tr:nth-child(even) {
   background-color: #D6EEEE;
+}
+
+.monoInfoCell {
+    max-width: 150px;
+    min-width: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
+}
+
+.cellEnd {
+    text-align: end;
 }

@@ -1,23 +1,27 @@
 <template>
-    <a href="google.com" style="margin-bottom: 0px;" ><b>{{ log.exercise.name }}</b></a>
-    <table style="margin-bottom: 5px;">
-        <tr>
-            <th>set #</th>
-            <th>reps</th>
-            <th>wgt</th>
-        </tr>
-        <tr v-for="s in log.exercise.sets">
-            <td>
-                <i>{{ s }}</i>
-            </td>
-            <td>
-                <i>{{ log.repsPerSet[s-1].reps }}</i>
-            </td>
-            <td :class="checkWorkoutMax(log.repsPerSet[s-1].weight, log.repsPerSet)">
-                <i>{{ log.repsPerSet[s-1].weight }}</i>
-            </td>
-        </tr>
-    </table>
+    <div>
+        <RouterLink :to="'exercises/' + log.exercise.id" class="rawLink exerciseLink">
+            {{ log.exercise.name }}
+        </RouterLink>
+        <table style="margin-bottom: 5px;">
+            <tr>
+                <th>set #</th>
+                <th>reps</th>
+                <th>wgt</th>
+            </tr>
+            <tr v-for="s in log.exercise.sets">
+                <td class="monoInfoCell cellEnd">
+                    <i>{{ s }}</i>
+                </td>
+                <td class="monoInfoCell cellEnd">
+                    <i>{{ log.repsPerSet[s-1].reps }}</i>
+                </td>
+                <td :class="checkWorkoutMax(log.repsPerSet[s-1].weight, log.repsPerSet) + ' monoInfoCell cellEnd'">
+                    <i>{{ log.repsPerSet[s-1].weight }}</i>
+                </td>
+            </tr>
+        </table>
+    </div>
 </template>
 
 <script lang="ts">
@@ -42,10 +46,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-td {
-    width: 75px;
-    text-align: end;
-}
-</style>
